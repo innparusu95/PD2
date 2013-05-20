@@ -3,9 +3,7 @@ require 'tweetstream'
 require 'Twitter'
 require 'pp'
 
-
-class Acount
-
+class Account
   def initialize(consumer_key,consumer_secret,oauth_token,oauth_token_secret)
     #ログイン
     Twitter.configure do |config|
@@ -44,7 +42,6 @@ class Acount
     p @hash
   end
 
-
   def addMentions(status)
     if @MATCH_NAME =~ status.text
       puts "#{status.user.screen_name}:#{status.text}"
@@ -54,13 +51,3 @@ class Acount
 
   private :addMentions,:setMentions
 end
-
-# main
-COSUMER_KEY = gets.chomp
-CONSUMER_SECRET = gets.chomp
-OAUTH_TOKEN = gets.chomp
-OAUTH_TOKEN_SECRET = gets.chomp
-
-
-acount = Acount.new(COSUMER_KEY,CONSUMER_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
-acount.userStream
