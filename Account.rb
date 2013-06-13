@@ -28,6 +28,7 @@ class Account
 
   def userStream #ユーザーストリームの処理
     setMentions #setMentionsメソッドの呼び出し
+    getImage #getImageメソッドの呼び出し
     @client.userstream do |status| #ユーザーストリームのループ(TLが更新されるたびに変数statusにツイート情報を記憶)
       addMentions(status) #addMentionsメソッドを引数statusで呼び出す
     end
@@ -41,12 +42,19 @@ class Account
   end
 
   def setMentions #setMentionsメソッドの定義
-    @hash = Hash.new(0) #ハッシュ(添字が数字じゃなくてもよい配列)を作成
+    @mentions = Hash.new(0) #ハッシュ(添字が数字じゃなくてもよい配列)を作成
     Twitter.mentions(count: 200).each do |tweet| #リプライのリストを一つづつとりループを行う
-      @hash[tweet.user.screen_name] += 1  #ハッシュ[ユーザーネーム]をインクリメント
+      @mentions[tweet.user.screen_name] += 1  #ハッシュ[ユーザーネーム]をインクリメント
     end
-    p @hash.sort{|a,b| b[1]<=>a[1]} #ハッシュの内容を出力
+    p @mentions.sort{|a,b| b[1]<=>a[1]} #ハッシュの内容を出力
   end
 
+  def getImage #setImage
+    @images = Hash.new('') #ハッシュを作成
+    Twitter.mentions(count: 200).each do |tweet| #リプライのリストを一つづつとりループを行う
+      @images[tweet.user.screen_name] = tweet.user.profile_image_url_https  #ハッシュ[ユーザーネーム]にアイコン画像のurlを代入
+    end
+    p @images.sort
+  end
   private :addMentions,:setMentions
 end
