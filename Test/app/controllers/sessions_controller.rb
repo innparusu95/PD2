@@ -8,6 +8,11 @@ class SessionsController < ApplicationController
       config.oauth_token = auth['credentials']['token']
       config.oauth_token_secret = auth['credentials']['secret']
     end
+    TweetStream.configure do |config|
+      config.oauth_token = auth['credentials']['token']
+      config.oauth_token_secret = auth['credentials']['secret']
+      config.auth_method        = :oauth
+    end
     redirect_to root_url, :notice => "Signed in!"
   end
 
