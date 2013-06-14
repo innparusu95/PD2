@@ -1,0 +1,5 @@
+# coding: utf-8
+<%@mentions.sort{|a,b| b[1]<=>a[1]}.each do |i| %>
+  <%= "@#{i.first} リプライ数 #{@mentions[i.first]}"%><br>
+  <%= image_tag @images[i.first] %><br>
+<%end%>
